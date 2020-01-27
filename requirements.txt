@@ -38,7 +38,7 @@ PyJWT==1.4.2
 pyOpenSSL==17.5.0
 python-editor==0.5
 pytz==2015.7
-requests==2.18.4
+requests==2.20.0
 six==1.10.0
 snowballstemmer==1.2.0
 Sphinx==1.3.3
