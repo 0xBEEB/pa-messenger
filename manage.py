@@ -1,6 +1,6 @@
 from flask import send_from_directory
-from flask.ext.script import Manager
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 from pa_messenger.bootstrap import get_app
 from pa_messenger.database import get_db
 
