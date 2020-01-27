@@ -8,10 +8,15 @@ def twiml(resp):
     return resp
 
 
-def view(view_name, form=None):
-    if form is None:
+def view(view_name, form=None, params=None):
+    if form is None and params is None:
         return render_template("{0}.html".format(view_name))
-    return render_template("{0}.html".format(view_name), form=form)
+    elif form is None and params is not None:
+        return render_template("{0}.html".format(view_name), params=params)
+    elif form is not None and params is None:
+        return render_template("{0}.html".format(view_name), form=form)
+    else:
+        return render_template("{0}.html".format(view_name), form=form, params=params)
 
 
 def redirect_to(view_name, **options):

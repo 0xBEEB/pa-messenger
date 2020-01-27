@@ -9,9 +9,6 @@ from flask_basicauth import BasicAuth
 
 
 def construct_view_blueprint(app, db):
-    SUBSCRIBE_COMMAND = "subscribe"
-    UNSUBSCRIBE_COMMAND = "unsubscribe"
-
     views = Blueprint("views", __name__)
 
     init_twilio_module(app)
@@ -26,7 +23,9 @@ def construct_view_blueprint(app, db):
 
     @views.route('/', methods=["GET", "POST"])
     def home():
-        return view('home')
+        params = {}
+        params['TWILIO_NUMBER'] = app.config['TWILIO_NUMBER']
+        return view('home', params=params)
 
     @views.route('/admin', methods=["GET", "POST"])
     @basic_auth.required
@@ -56,10 +55,12 @@ def construct_view_blueprint(app, db):
         if subscriber is None:
             subscriber = Subscriber(phone_number=request.form['From'])
             db.session.add(subscriber)
-            if request.form['Body'].lower().startswith(SUBSCRIBE_COMMAND):
+            if request.form['Body'].lower().startswith(app.config['UNSUBSCRIBE_COMMAND']):
+                output = _process_message(request.form['Body'], subscriber)
+            elif request.form['Body'].lower().startswith(app.config['SUBSCRIBE_COMMAND']):
                 output = _process_message(request.form['Body'], subscriber)
             else:
-                output = "Thanks for contacting Montavilla EWS! Text 'subscribe' if you would like to receive updates via text message."
+                output = "Thanks for contacting Montavilla EWS! Text " + app.config['SUBSCRIBE_COMMAND'] + " if you would like to receive updates via text message." + "Text " + app.config['UNSUBSCRIBE_COMMAND'] + " to  stop receiving text messages."
             db.session.commit()
         else:
             output = _process_message(request.form['Body'], subscriber)
@@ -69,17 +70,17 @@ def construct_view_blueprint(app, db):
         return twiml(twilio_services.respond_message(output))
 
     def _process_message(message, subscriber):
-        output = "Sorry, we don't recognize that command. Available commands are: 'subscribe' or 'unsubscribe'."
+        output = "Sorry, we don't recognize that command. Available commands are: '" + app.config['SUBSCRIBE_COMMAND'] + "' or '" + app.config['UNSUBSCRIBE_COMMAND'] + "'."
 
         message = message.lower()
 
-        if message.startswith(SUBSCRIBE_COMMAND) or message.startswith(UNSUBSCRIBE_COMMAND):
-            subscriber.subscribed = message.startswith(SUBSCRIBE_COMMAND)
+        if message.startswith(app.config['SUBSCRIBE_COMMAND']) or message.startswith(app.config['UNSUBSCRIBE_COMMAND']):
+            subscriber.subscribed = message.startswith(app.config['SUBSCRIBE_COMMAND'])
 
             if subscriber.subscribed:
                 output = "You are now subscribed for updates."
             else:
-                output = "You have unsubscribed from notifications. Text 'subscribe' to start receiving updates again"
+                output = "You have unsubscribed from notifications. Text " + app.config['SUBSCRIBE_COMMAND'] + " if you would like to receive start receieving updates again."
 
         return output
 
