@@ -1,6 +1,6 @@
 import unittest
 import xml.etree.ElementTree as ElementTree
-from base import BaseTestCase
+from tests.base import BaseTestCase
 
 
 class ViewsTests(BaseTestCase):
@@ -10,7 +10,7 @@ class ViewsTests(BaseTestCase):
         self.client.get('/')
 
         # assert
-        self.assert_template_used('notifications.html')
+        self.assert_template_used('home.html')
 
     # Ensures post action to route '/notifications' with missing image url renders view errors
     def test_post_to_message_should_respond_with_message(self):

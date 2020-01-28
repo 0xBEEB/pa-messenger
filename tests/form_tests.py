@@ -12,11 +12,11 @@ class FormTests(BaseTestCase):
         assert form.validate() is False
         assert 'Message is required' in form.message.errors
 
-    # Ensures populate SenMessageForm with missing imageUrl filed give an error
-    def test_populate_SendMessageForm_with_missing_imageUrl_should_produce_error(self):
+    # Ensures populate SenMessageForm with message over 160 should produce error 
+    def test_populate_SendMessageForm_with_message_over_160_should_produce_error(self):
         # arrange
-        form = SendMessageForm(message='Test', imageUrl='')
+        form = SendMessageForm(message='This is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is longThis is long', imageUrl='')
 
         # assert
         assert form.validate() is False
-        assert 'Image URL is required' in form.imageUrl.errors
+        assert 'Message must be between 1 and 160 characters' in form.message.errors

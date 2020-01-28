@@ -55,12 +55,14 @@ def construct_view_blueprint(app, db):
         if subscriber is None:
             subscriber = Subscriber(phone_number=request.form['From'])
             db.session.add(subscriber)
-            if request.form['Body'].lower().startswith(app.config['UNSUBSCRIBE_COMMAND']):
+            if request.form['Body'].lower().startswith(
+                    app.config['UNSUBSCRIBE_COMMAND']):
                 output = _process_message(request.form['Body'], subscriber)
-            elif request.form['Body'].lower().startswith(app.config['SUBSCRIBE_COMMAND']):
+            elif request.form['Body'].lower().startswith(
+                    app.config['SUBSCRIBE_COMMAND']):
                 output = _process_message(request.form['Body'], subscriber)
             else:
-                output = "Thanks for contacting Montavilla EWS! Text " + app.config['SUBSCRIBE_COMMAND'] + " if you would like to receive updates via text message." + "Text " + app.config['UNSUBSCRIBE_COMMAND'] + " to  stop receiving text messages."
+                output = "Thanks for contacting Montavilla EWS! Text '{}' if you would like to receive updates via text message. Text '{}' to  stop receiving text messages.".format(app.config['SUBSCRIBE_COMMAND'], app.config['UNSUBSCRIBE_COMMAND'])
             db.session.commit()
         else:
             output = _process_message(request.form['Body'], subscriber)
@@ -70,7 +72,7 @@ def construct_view_blueprint(app, db):
         return twiml(twilio_services.respond_message(output))
 
     def _process_message(message, subscriber):
-        output = "Sorry, we don't recognize that command. Available commands are: '" + app.config['SUBSCRIBE_COMMAND'] + "' or '" + app.config['UNSUBSCRIBE_COMMAND'] + "'."
+        output = "Sorry, we don't recognize that command. Available commands are: '{}' or '{}'.".format(app.config['SUBSCRIBE_COMMAND'], app.config['UNSUBSCRIBE_COMMAND'])
 
         message = message.lower()
 
@@ -80,7 +82,7 @@ def construct_view_blueprint(app, db):
             if subscriber.subscribed:
                 output = "You are now subscribed for updates."
             else:
-                output = "You have unsubscribed from notifications. Text " + app.config['SUBSCRIBE_COMMAND'] + " if you would like to receive start receieving updates again."
+                output = "You have unsubscribed from notifications. Text '{}' if you would like to receive start receieving updates again.".format(app.config['SUBSCRIBE_COMMAND'])
 
         return output
 

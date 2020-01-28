@@ -1,4 +1,4 @@
-from flask.ext.testing import TestCase
+from flask_testing import TestCase
 from tests import init_test_environment, test_app, test_db
 
 init_test_environment()

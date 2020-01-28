@@ -1,7 +1,7 @@
 import unittest
 from xml.etree import ElementTree
 
-from base import BaseTestCase
+from tests.base import BaseTestCase
 from pa_messenger.twilio.twilio_services import TwilioServices
 
 
