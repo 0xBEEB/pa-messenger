@@ -6,7 +6,7 @@ class DefaultConfig:
     SECRET_KEY = 'youshouldreallychangethis'
     DEBUG = False
     CURR_PATH = os.path.dirname(os.path.realpath(__file__))
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///' + CURR_PATH + '/../mews.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgresql://pa_messenger:pa@localhost/pa_messengerdb')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TWILIO_ACCOUNT_SID = 'Put your twilio account sid here'
     TWILIO_AUTH_TOKEN = 'Put your twilio auth token here'
