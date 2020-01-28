@@ -16,7 +16,6 @@ class DefaultConfig:
     BASIC_AUTH_USERNAME = 'admin'
     BASIC_AUTH_PASSWORD = 'SoSecret'
 
-
 class DevelopmentConfig(DefaultConfig):
     DEBUG = True
     CURR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -36,5 +35,6 @@ class TestConfig(DefaultConfig):
 config_env_files = {
     'test': 'pa_messenger.config.TestConfig',
     'development': 'pa_messenger.config.DevelopmentConfig',
+    'production': 'pa_messenger.config.DefaultConfig',
 }
 
