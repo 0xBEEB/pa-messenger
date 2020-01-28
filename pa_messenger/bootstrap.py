@@ -1,3 +1,4 @@
+import os
 from flask_sqlalchemy import SQLAlchemy
 
 from flask import Flask
@@ -30,7 +31,8 @@ def init_app(config_name):
 
 def _configure_app(flask_app, config_name):
     flask_app.config.from_object(config_env_files[config_name])
-    flask_app.config.from_envvar('PA_MESSENGER_CONFIG')
+    if "PA_MESSENGER_CONFIG" in os.environ:
+        flask_app.config.from_envvar('PA_MESSENGER_CONFIG')
     app_db = SQLAlchemy(flask_app)
     set_db(app_db, config_name)
     flask_app.register_blueprint(construct_view_blueprint(flask_app, app_db))

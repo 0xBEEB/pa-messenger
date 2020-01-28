@@ -14,8 +14,7 @@ class SendMessageForm(FlaskForm):
                     max=160,
                     message="Message must be between 1 and 160 characters")],
             widget=TextArea())
-    imageUrl = TextField('Image URL', validators=[])
 
     def reset(self):
-        blankData = MultiDict([('message', ''), ('imageUrl', '')])
+        blankData = MultiDict([('message', '')])
         self.process(blankData)
