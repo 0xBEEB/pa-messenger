@@ -19,7 +19,7 @@ Flask-Script==2.0.6
 Flask-SQLAlchemy==2.4.1
 Flask-Testing==0.7.1
 Flask-WTF==0.14.2
-httplib2==0.17.0
+httplib2==0.18.0
 idna==2.7
 imagesize==1.2.0
 ipaddress==1.0.23
