@@ -24,7 +24,7 @@ idna==2.7
 imagesize==1.2.0
 ipaddress==1.0.23
 itsdangerous==1.1.0
-Jinja2==2.11.0
+Jinja2==2.11.3
 linecache2==1.0.0
 Mako==1.1.1
 MarkupSafe==1.1.1
